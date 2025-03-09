@@ -1,0 +1,13 @@
+# Exclure l'environnement virtuel
+venv/
+
+# Exclure les fichiers temporaires et logs
+__pycache__/
+*.log
+*.csv
+*.json
+*.xlsx
+.DS_Store
+
+# Exclure les fichiers de l'IDE
+.vscode/
