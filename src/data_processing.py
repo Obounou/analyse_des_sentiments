@@ -1,58 +1,65 @@
 import sys
 import os
-import unittest
+import re
 import pandas as pd
+import nltk
+from nltk.corpus import stopwords
+from transformers import AutoTokenizer
 
-# ✅ Ajouter le dossier "src" au chemin pour que Python puisse importer data_processing.py
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+# ✅ Ajouter "src" au chemin pour éviter les erreurs d'import
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-# ✅ Importer les fonctions depuis src/data_processing.py
-from data_processing import clean_text, remove_stopwords, tokenize_text, process_reviews
+# ✅ Importer la fonction de chargement des données
+from src.data_extraction import load_reviews_data
 
-class TestDataProcessing(unittest.TestCase):
-    """ Teste les fonctions de traitement des avis. """
+# ✅ Télécharger les stopwords si nécessaire
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
 
-    def test_clean_text(self):
-        """ Vérifie si clean_text supprime bien les caractères spéciaux et met en minuscules. """
-        text = "C'est génial ! Éléphant & télé. 123"
-        expected = "cest genial elephant tele"
-        self.assertEqual(clean_text(text), expected)
+# ✅ Charger le tokenizer BERT
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
-    def test_remove_stopwords(self):
-        """ Vérifie si remove_stopwords supprime bien les mots inutiles. """
-        text = "this is a great product with many features"
-        expected = "great product many features"  # Suppression des stopwords
-        self.assertEqual(remove_stopwords(text), expected)
 
-    def test_tokenize_text(self):
-        """ Vérifie si tokenize_text applique correctement le tokenizer BERT. """
-        text = "Machine learning is amazing"
-        tokens = tokenize_text(text)
-        self.assertIsInstance(tokens, list)  # Vérifie que le résultat est une liste
-        self.assertGreater(len(tokens), 0)   # Vérifie qu'il y a bien des tokens
+def clean_text(text):
+    """ Nettoie le texte en supprimant les caractères spéciaux et les chiffres. """
+    if isinstance(text, str):
+        text = text.lower()
+        text = re.sub(r'[^a-z\s]', '', text)  # Supprime caractères spéciaux et chiffres
+        text = re.sub(r'\s+', ' ', text).strip()  # Supprime les espaces inutiles
+        return text
+    return ""
 
-    def test_process_reviews(self):
-        """ Vérifie si process_reviews applique tout le pipeline correctement sur un DataFrame. """
-        data = {
-            'content': [
-                "This is an amazing product!",
-                "Worst experience ever. Don't buy it.",
-                "Simple, efficient, and useful."
-            ]
-        }
-        df = pd.DataFrame(data)
 
-        # Appliquer le traitement
-        processed_df = process_reviews(df)
+def remove_stopwords(text):
+    """ Supprime les stopwords du texte. """
+    words = text.split()
+    words = [word for word in words if word not in stop_words]
+    return " ".join(words)
 
-        # Vérifier que les colonnes ont bien été créées
-        self.assertIn('cleaned_content', processed_df.columns)
-        self.assertIn('tokenized_content', processed_df.columns)
 
-        # Vérifier que les valeurs ne sont pas vides
-        self.assertGreater(len(processed_df['cleaned_content'][0]), 0)
-        self.assertGreater(len(processed_df['tokenized_content'][0]), 0)
+def tokenize_text(text):
+    """ Tokenise un texte avec le tokenizer BERT. """
+    return tokenizer.tokenize(text)
 
+
+def process_reviews(df):
+    """ Applique le nettoyage, suppression de stopwords et tokenisation sur un DataFrame. """
+    if 'content' not in df.columns:
+        raise ValueError("La colonne 'content' est absente du DataFrame.")
+    
+    df['cleaned_content'] = df['content'].apply(clean_text)
+    df['cleaned_content'] = df['cleaned_content'].apply(remove_stopwords)
+    df['tokenized_content'] = df['cleaned_content'].apply(tokenize_text)
+
+    print("✅ Traitement des avis terminé.")
+    return df
+
+
+# ✅ Tester la fonction principale
 if __name__ == "__main__":
-    unittest.main()
+    df = load_reviews_data()
+    if df is not None:
+        df = process_reviews(df)
+        print(df[['content', 'cleaned_content', 'tokenized_content']].head())
+
 
