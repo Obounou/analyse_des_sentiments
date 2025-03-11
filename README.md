@@ -1,22 +1,19 @@
-Voici une version améliorée de ton pipeline, en rendant la structure plus modulaire, évolutive et adaptée aux bonnes pratiques du **NLP** et de **BERT**.  
 
----
+# 📊 **Analyse des Sentiments avec BERT**  
 
-# 📊 Analyse des Sentiments avec BERT 
-
-## 📝 Description
+## 📝 **Description**
 Ce projet permet d’analyser les **sentiments des avis clients** en utilisant **BERT** pour la **tokenisation** et un modèle de **classification**. Il intègre un pipeline complet allant de la collecte des données jusqu’à l’inférence et l’évaluation des performances.  
 
-## 🔧 Pipeline
-1. 📥 Extraction des données** : Chargement des avis clients à partir de différentes sources (CSV, API, web scraping).  
-2. 🛠️ Prétraitement & Tokenisation** : Nettoyage du texte, suppression du bruit, et tokenisation avec BERT.  
-3. 📊 Entraînement & Évaluation** : Fine-tuning d’un modèle BERT pour la classification des sentiments.  
-4. 🚀 Inférence & Visualisation** : Prédiction des sentiments et analyse des résultats via des métriques et des graphiques.  
-5. 🔍 Clustering & Insights** *(optionnel)* : Regroupement des avis similaires pour identifier des tendances.
+## 🔧 **Pipeline**
+1. **📥 Extraction des données** : Chargement des avis clients à partir de différentes sources (CSV, API, web scraping).  
+2. **🛠️ Prétraitement & Tokenisation** : Nettoyage du texte, suppression du bruit, et tokenisation avec BERT.  
+3. **📊 Entraînement & Évaluation** : Fine-tuning d’un modèle BERT pour la classification des sentiments.  
+4. **🚀 Inférence & Visualisation** : Prédiction des sentiments et analyse des résultats via des métriques et des graphiques.  
+5. **🔍 Clustering & Insights** *(optionnel)* : Regroupement des avis similaires pour identifier des tendances.
 
 ---
 
-## 📂 Structure du Projet 
+## 📂 **Structure du Projet**
 ```
 analyse_des_sentiments/
 │── src/
@@ -59,11 +56,11 @@ analyse_des_sentiments/
 
 ---
 
-🚀 Améliorations par rapport à la version initiale**
-✅ Modularité accrue : séparation claire entre **extraction, prétraitement, entraînement, inférence** et **visualisation**.  
-✅ ntraînement flexible : `training.py` gère le fine-tuning du modèle avec Hugging Face.  
-✅ Clustering et Dashboard *(optionnel)* : possibilité d’explorer les sentiments sous forme de groupes via `clustering.py`.  
-✅ Déploiement facile : API via Flask/FastAPI (`app.py`) pour faire des prédictions en temps réel.  
-✅ Configuration centralisée : `config.yaml` pour stocker les hyperparamètres et chemins de fichiers.  
+## 🚀 **Améliorations par rapport à la version initiale**
+✅ **Modularité accrue** : séparation claire entre **extraction, prétraitement, entraînement, inférence** et **visualisation**.  
+✅ **Entraînement flexible** : `training.py` gère le fine-tuning du modèle avec Hugging Face.  
+✅ **Clustering et Dashboard** *(optionnel)* : possibilité d’explorer les sentiments sous forme de groupes via `clustering.py`.  
+✅ **Déploiement facile** : API via **Flask/FastAPI** (`app.py`) pour faire des prédictions en temps réel.  
+✅ **Configuration centralisée** : `config.yaml` pour stocker les hyperparamètres et chemins de fichiers.  
 
-Cette structure est calable, facile à maintenir et prête pour la production. Tu veux une implémentation détaillée pour un des modules ? 🚀
+Cette structure est **scalable**, **facile à maintenir** et **prête pour la production**. Tu veux une implémentation détaillée pour un des modules ? 🚀
