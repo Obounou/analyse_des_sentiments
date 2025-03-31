@@ -1,0 +1,34 @@
+name: Model Evaluation
+
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Evaluate model
+        run: |
+          python evaluate.py
+
+      - name: Save metrics
+        uses: actions/upload-artifact@v3
+        with:
+          name: model-metrics
+          path: metrics.json
