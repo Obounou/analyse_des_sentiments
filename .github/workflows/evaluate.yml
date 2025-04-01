@@ -1,34 +1,29 @@
-name: Model Evaluation
-
-on:
-  workflow_run:
-    workflows: ["Run Tests"]
-    types:
-      - completed
-
 jobs:
-  evaluate:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.9"
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Evaluate model
+      - name: Build Docker image
         run: |
-          python evaluate.py
+          docker build -t sentiment-api .
 
-      - name: Save metrics
+      - name: Run tests
+        run: |
+          pytest
+
+      - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
-          name: model-metrics
-          path: metrics.json
+          name: test-results
+          path: path/to/test/results # Assure-toi que le chemin est correct
