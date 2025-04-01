@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Exécuter generate_evaluation_results.py pour générer le fichier JSON
+      - name: Générer les résultats d'évaluation (JSON)
         run: python generate_evaluation_results.py
 
       - name: Run evaluation
@@ -33,5 +33,9 @@ jobs:
       - name: Générer le rapport de performance
         run: python generate_report.py
 
-      - name: Démarrer le monitoring
-        run: python monitor.py &
+      - name: Vérifier les performances
+        run: |
+          ACCURACY=$(awk -F',' 'NR==2 {print $2}' performance_report.csv)
+          if (( $(echo "$ACCURACY < 0.75" | bc -l) )); then
+            echo "⚠️ Attention, la précision est en baisse : $ACCURACY" | tee performance_alert.txt
+          fi
