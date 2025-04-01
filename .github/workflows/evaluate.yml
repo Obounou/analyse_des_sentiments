@@ -24,6 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Exécuter generate_evaluation_results.py pour générer le fichier JSON
+        run: python generate_evaluation_results.py
+
       - name: Run evaluation
         run: python evaluate.py
 
