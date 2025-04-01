@@ -120,5 +120,5 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus d'i
 ---
 
 ## 📞 Contact
-Pour toute question, ouvrez une issue ou contactez-nous par email à `contact@votre-email.com`. 🚀
+Pour toute question, ouvrez une issue ou contactez-nous par email à `mintsamalone@gmail.com`. 🚀
 
