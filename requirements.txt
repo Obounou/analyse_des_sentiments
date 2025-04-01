@@ -1,20 +1,9 @@
-
-3. **Enregistrer** (`CTRL + S` sur Windows/Linux ou `CMD + S` sur Mac)
-
----
-
-### **📌 Modifier `requirements.txt`**
-1. Clique sur `requirements.txt` dans VS Code.
-2. Ajoute ces dépendances :
-```txt
 pandas
 numpy
-transformers
 nltk
-torch
 scikit-learn
 pytest
 Flask==2.1.1
 transformers==4.16.2
-torch==1.10.0
+torch==2.1.1
 requests==2.26.0
