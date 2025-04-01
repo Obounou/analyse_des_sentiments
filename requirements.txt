@@ -7,3 +7,5 @@ Flask==2.1.1
 transformers==4.16.2
 torch==2.1.1
 requests==2.26.0
+prometheus_client
+psutil

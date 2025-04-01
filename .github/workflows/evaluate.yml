@@ -26,3 +26,9 @@ jobs:
 
       - name: Run evaluation
         run: python evaluate.py
+
+      - name: Générer le rapport de performance
+        run: python generate_report.py
+
+      - name: Démarrer le monitoring
+        run: python monitor.py &
